@@ -2,12 +2,16 @@ from flask import Flask, request, jsonify
 from dotenv import load_dotenv
 import os
 import json
+from flask_cors import CORS
 
 # Carga variables de entorno desde .env
 load_dotenv()
 
 # Crear la app Flask
 app = Flask(__name__)
+
+# Habilita CORS para que tu app de Zendesk pueda comunicarse con el backend
+CORS(app) 
 
 # Origen permitido para CORS (tu Zendesk)
 ALLOWED_ORIGIN = os.getenv("ALLOWED_ORIGIN", "*")
@@ -78,4 +82,5 @@ def suggest_macro(text):
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
+
 
