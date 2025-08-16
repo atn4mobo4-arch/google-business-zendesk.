@@ -6,6 +6,7 @@ from flask_cors import CORS
 import gspread
 from google.oauth2.service_account import Credentials
 import google.generativeai as genai
+import traceback
 
 # Carga variables de entorno desde .env (para pruebas locales)
 load_dotenv()
@@ -48,7 +49,8 @@ try:
     print("Datos de Google Sheet cargados exitosamente.")
 
 except Exception as e:
-    print(f"Error al cargar Google Sheet: {e}")
+    print("Error al cargar Google Sheet:")
+    traceback.print_exc()
     SHEET_DATA_HEADERS = []
     SHEET_DATA_ROWS = []
     gc = None
@@ -154,4 +156,5 @@ def get_suggestions_from_sheet(ticket_text):
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
+
 
