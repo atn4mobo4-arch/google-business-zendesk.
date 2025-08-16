@@ -37,10 +37,12 @@ try:
     creds = Credentials.from_service_account_info(google_credentials_dict, scopes=SCOPES)
     gc = gspread.authorize(creds)
     
-    GOOGLE_SHEET_URL = os.getenv("GOOGLE_SHEET_URL")
-    WORKSHEET_NAME = os.getenv("WORKSHEET_NAME", "Sheet1")
+    # --- CAMBIO AQUI: USAR EL ID DE LA HOJA EN LUGAR DE LA URL ---
+    GOOGLE_SHEET_ID = os.getenv("GOOGLE_SHEET_ID")
+    WORKSHEET_NAME = os.getenv("WORKSHEET_NAME", "Hoja1")
     
-    spreadsheet = gc.open_by_url(GOOGLE_SHEET_URL)
+    # Usar el ID para abrir la hoja
+    spreadsheet = gc.open_by_key(GOOGLE_SHEET_ID)
     worksheet = spreadsheet.worksheet(WORKSHEET_NAME)
     
     SHEET_DATA_HEADERS = worksheet.row_values(1)
@@ -156,5 +158,6 @@ def get_suggestions_from_sheet(ticket_text):
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
+
 
 
